@@ -1,5 +1,7 @@
 # EcoScan
 
+![EcoScan demo](docs/EcoScan-Demo.gif)
+
 A full-stack web app that identifies winter plants from photos, combining a custom TensorFlow model with the Plant.id API.
 
 Built as part of the Hellman Experiential Science Program at Mills College (Jan - May 2025), under Professor John Alexis Gomez.
