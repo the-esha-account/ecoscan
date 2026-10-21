@@ -1,0 +1,11 @@
+.env
+venv/
+venv-old/
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+build/
+backend/data/
+backend/data/
+backend/uploads/
