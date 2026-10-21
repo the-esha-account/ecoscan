@@ -3,23 +3,23 @@ import "./App.css";
 import logo from './images/logo.png';
 import identifyimg from './images/identifyimg.png';
 import fileimg from './images/fileimg.png';
+import PlantTip from "./PlantTip";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
 export default function PlantScanner() {
   const [image, setImage] = useState(null);
-  //const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [season, setSeason] = useState("");
   const [location, setLocation] = useState("");
-  const [result, setResult] = useState({
-  name: "Test Plant",
-  confidence: 99
-});
+  const [result, setResult] = useState(null);
+  const [fileKey, setFileKey] = useState(0);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleSubmit = async () => {
     if (!image) return;
     setLoading(true);
+    setResult(null);
 
     const form = new FormData();
     form.append("image", image);
@@ -33,13 +33,20 @@ export default function PlantScanner() {
       });
 
       const data = await res.json();
-      setResult(data);
+
+      if (!res.ok) {
+        setResult({ name: data.error || "Error", confidence: 0 });
+      } else {
+        setResult(data);
+      }
     } catch (e) {
       console.error(e);
       setResult({ name: "Error", confidence: 0 });
+    } finally {
+      setLoading(false);
+      setImage(null);
+      setFileKey(k => k + 1);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -83,35 +90,64 @@ export default function PlantScanner() {
           </div>
 
           <div>
-            <h2>Browse Plants</h2>
-
-            <div id = "rectangle"></div>
+            <h2>Plant Tips</h2>
+            <div id="rectangle">
+              <PlantTip />
+            </div>
           </div>
+
         </div>
 
-        {result && (
-            <div className="results-container">
-              <p className="results-text">
-                <b>Plant</b>: {result.name}, <b>Confidence</b>: {result.confidence}%
-              </p>
-            </div>
-          )}
+        {previewUrl && (
+          <div style={{ width: "100%", padding: "0 1.5rem", boxSizing: "border-box" }}>
+            <img
+              src={previewUrl}
+              alt="Selected plant"
+              style={{
+                display: "block",
+                width: "100%",
+                maxWidth: "400px",
+                maxHeight: "40vh",
+                height: "auto",
+                margin: "1rem auto",
+                objectFit: "contain",
+                borderRadius: "12px"
+              }}
+            />
+          </div>
+        )}
+
+        {result && !loading && (
+          <div className="results-container">
+            <p className="results-text">
+              <b>Plant</b>: {result.name}, <b>Confidence</b>: {Number(result.confidence).toFixed(1)}%
+            </p>
+          </div>
+        )}
         
         <div className="circle-button-row">
 
           <div className="button-container">
             <input
+              key={fileKey}
+              type="file"
               id="file-input"
               type="file"
               accept="image/*"
-              onChange={e => setImage(e.target.files[0])}
+              onChange={e => {
+                const file = e.target.files[0];
+                setImage(file);
+                if (previewUrl) URL.revokeObjectURL(previewUrl);
+                setPreviewUrl(file ? URL.createObjectURL(file) : null);
+                setResult(null);
+              }}
               style={{ display: "none" }}
             />
             <label htmlFor="file-input" className="circle-button" id="file-button" >
               <img id="fileimg" src={fileimg} />
             </label>
             <p className="button-text">
-              {image ? "File Uploaded!" : "Choose File"}
+              {image ? "File Uploaded!" : "Upload File"}
             </p>
           </div>
 
