@@ -24,6 +24,7 @@ EcoScan is a full-stack plant identification app built for the Hellman Experient
 * The custom model underperformed Plant.id, so it only runs as a fallback, and it covers just the 7 plants above.
 * Season and location are chosen by the user. My first version read GPS and timestamps from photo EXIF metadata, but EXIF data was often missing or stripped, so I switched to manual inputs.
 * The S3 upload code is still in the repo, but it's untested and disabled because I no longer have access to the AWS account.
+* The training photos (283 images) aren't included in this repo, so the model can't be retrained from it as is. The trained model file is included in `backend/models/`.
 
 ## Setup Instructions
 
