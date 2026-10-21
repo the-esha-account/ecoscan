@@ -1,6 +1,6 @@
 # EcoScan
 
-![EcoScan demo](docs/EcoScan-Demo.gif)
+![EcoScan demo](docs/EcoScan-Web-Demo.gif)
 
 A full-stack web app that identifies winter plants from photos, combining a custom TensorFlow model with the Plant.id API.
 
