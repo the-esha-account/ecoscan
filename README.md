@@ -4,6 +4,8 @@
 
 EcoScan is a full-stack plant identification app built for the Hellman Experiential Science Program at Mills College (Jan-May 2025), under Professor John Alexis Gomez. Users upload a photo of a winter plant, and the app identifies it with the Plant.id API, falling back to a custom TensorFlow model trained on my own photos when Plant.id isn't confident. The app currently runs locally.
 
+[![EcoScan Figma Mockup](docs/EcoScanFigma.png)](https://www.figma.com/design/sYk0ejj8uL6rQfFfM9JUcK/EcoScan-App?node-id=0-1&t=7gastXWuKAzApLKt-1)
+
 ## Features
 
 * **Photo Identification:** Upload a plant photo, choose a season and location, and get a name and confidence score.
